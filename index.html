@@ -35,9 +35,8 @@
       var(--bg);
   }
   .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px; }
-  section { padding: 190px 0 0; }
-  section:last-of-type { padding-bottom: 120px; }
-  @media (max-width: 720px) { section { padding: 110px 0 0; } }
+  section { padding: 160px 0; }
+  @media (max-width: 720px) { section { padding: 90px 0; } }
 
   h1, h2, h3 { line-height: 1.2; }
   h2 { font-size: clamp(26px, 4vw, 36px); margin-bottom: 16px; text-shadow: 0 0 30px var(--accent-glow); }
@@ -267,21 +266,23 @@
     var thumbs = document.querySelectorAll('#galThumbs .thumb');
     var cap = document.getElementById('galCap');
     var i = 0, timer = null;
-    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = window.matchMedia('(hover: hover)').matches;
     function show(n) {
       i = n % slides.length;
       slides.forEach(function (el, k) { el.classList.toggle('active', k === i); });
       thumbs.forEach(function (el, k) { el.classList.toggle('active', k === i); });
       cap.innerHTML = caps[i];
     }
-    function play() { if (!still && !timer) timer = setInterval(function () { show(i + 1); }, 5000); }
+    function play() { if (!timer) timer = setInterval(function () { show(i + 1); }, 5000); }
     function stop() { clearInterval(timer); timer = null; }
     thumbs.forEach(function (el, k) {
       el.addEventListener('click', function () { stop(); show(k); play(); });
     });
     var gal = document.querySelector('.gallery');
-    gal.addEventListener('mouseenter', stop);
-    gal.addEventListener('mouseleave', play);
+    if (canHover) {
+      gal.addEventListener('mouseenter', stop);
+      gal.addEventListener('mouseleave', play);
+    }
     play();
   })();
   </script>
