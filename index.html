@@ -35,7 +35,9 @@
       var(--bg);
   }
   .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px; }
-  section { padding: 120px 0; }
+  section { padding: 190px 0 0; }
+  section:last-of-type { padding-bottom: 120px; }
+  @media (max-width: 720px) { section { padding: 110px 0 0; } }
 
   h1, h2, h3 { line-height: 1.2; }
   h2 { font-size: clamp(26px, 4vw, 36px); margin-bottom: 16px; text-shadow: 0 0 30px var(--accent-glow); }
@@ -46,7 +48,7 @@
   .lede { color: var(--text-dim); font-size: 17px; max-width: 720px; }
 
   /* ── hero ─────────────────────────────── */
-  .hero { padding: 130px 0 110px; text-align: center; }
+  .hero { padding: 140px 0 40px; text-align: center; }
   .orb {
     width: 74px; height: 74px; border-radius: 50%; margin: 0 auto 30px;
     background: radial-gradient(circle at 35% 35%, #d6f2ff, var(--accent) 55%, rgba(71,198,255,.15));
