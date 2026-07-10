@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>M.E.R.L.I.N. — a personal AI assistant, built in a week</title>
-<meta name="description" content="Merlin is a private, multi-channel AI assistant platform designed and built by Dustin Mooney in collaboration with Claude. This is the tour.">
+<meta name="description" content="Merlin is a private, multi-channel AI assistant platform designed and built by Dustin Mooney. One brain, seven channels, many models — this is the tour.">
 <style>
   :root {
     --bg: #0a0c12;
@@ -66,8 +66,6 @@
   .acronym { margin: 14px 0 6px; color: var(--text-dim); font-size: clamp(15px, 2.4vw, 19px); }
   .acronym b { color: var(--text); }
   .tagline { font-size: clamp(17px, 2.6vw, 22px); margin: 18px auto 8px; max-width: 640px; }
-  .byline { color: var(--text-dim); font-size: 15px; }
-  .byline a { color: var(--accent); text-decoration: none; }
 
   .stats { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 38px; }
   .stat {
@@ -123,8 +121,9 @@
     position: relative; aspect-ratio: 1600 / 1059; border-radius: 10px; overflow: hidden;
     border: 1px solid rgba(122,160,220,.25);
   }
+  .frame { background: #0b0e15; }
   .frame img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
     opacity: 0; transition: opacity .7s ease;
   }
   .frame img.active { opacity: 1; }
@@ -137,7 +136,7 @@
     background: none; cursor: pointer; opacity: .5;
     transition: opacity .25s, border-color .25s, box-shadow .25s;
   }
-  .thumb img { display: block; width: 100%; height: auto; }
+  .thumb img { display: block; width: 100%; aspect-ratio: 1600 / 1059; object-fit: cover; object-position: top; }
   .thumb:hover { opacity: .85; }
   .thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .thumb.active {
@@ -164,16 +163,20 @@
   .method li b { color: var(--text); }
 
   /* ── numbers band ─────────────────────── */
-  .numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 30px; }
-  .num { text-align: center; padding: 18px 8px; border: 1px solid var(--glass-border); border-radius: 14px; background: var(--glass); }
-  .num b { display: block; font-size: 22px; color: var(--accent-2); }
-  .num span { font-size: 12px; color: var(--text-dim); }
+  .numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 30px; }
+  @media (max-width: 720px) { .numbers { grid-template-columns: repeat(2, 1fr); } }
+  .num {
+    text-align: center; padding: 34px 12px; border: 1px solid var(--glass-border);
+    border-radius: 16px; background: var(--glass); display: flex; flex-direction: column;
+    justify-content: center; gap: 6px; min-height: 130px;
+  }
+  .num b { display: block; font-size: 34px; color: var(--accent-2); }
+  .num span { font-size: 13.5px; color: var(--text-dim); }
 
   footer {
     border-top: 1px solid var(--glass-border); padding: 40px 0 60px; margin-top: 40px;
     text-align: center; color: var(--text-dim); font-size: 14px;
   }
-  footer .creed { color: var(--text); font-size: 15px; margin-bottom: 10px; }
 </style>
 </head>
 <body>
@@ -184,13 +187,12 @@
   <div class="orb" aria-hidden="true"></div>
   <h1>M.E.R.L.I.N.</h1>
   <p class="acronym"><b>M</b>y <b>E</b>fficient, <b>R</b>ather <b>L</b>oyal, <b>I</b>ntelligent <b>N</b>avigator</p>
-  <p class="tagline">A personal AI assistant — a private JARVIS — designed, built, and shipped from scratch.</p>
-  <p class="byline">Built by <b>Dustin Mooney</b> in collaboration with Claude &middot; July 2026</p>
+  <p class="tagline">A personal AI assistant — a private JARVIS — designed, built, and shipped from scratch by Dustin Mooney.</p>
 
   <div class="stats">
     <div class="stat"><b>6 days</b><span>first commit → full platform</span></div>
-    <div class="stat"><b>18</b><span>milestones shipped</span></div>
-    <div class="stat"><b>117+</b><span>plain-English commits</span></div>
+    <div class="stat"><b>20</b><span>milestones shipped</span></div>
+    <div class="stat"><b>130+</b><span>plain-English commits</span></div>
     <div class="stat"><b>~$20/mo</b><span>fixed infrastructure</span></div>
   </div>
 
@@ -204,8 +206,9 @@
   <p class="lede">
     Merlin is a self-hosted AI assistant platform. A single "brain" — with its own long-term memory,
     personality dials, cost-tiered model routing, and hard security walls — answers everywhere its
-    owner happens to be. Every channel below talks to the same mind, shares the same memory, and
-    obeys the same safety rules.
+    owner happens to be. And it isn't built for just one person: the platform supports multiple
+    individual accounts, each with its own assistant name, personality, voice, memory, and
+    integrations — walled off from every other account at the database layer.
   </p>
   <div class="channels">
     <span class="chip">💬 Web app <small>— glass "JARVIS board" UI</small></span>
@@ -223,6 +226,7 @@
   <p class="kicker">Capabilities</p>
   <h2>What it can do</h2>
   <div class="grid">
+    <div class="card"><div class="ico">👥</div><h3>Multi-user by design</h3><p>Every account is its own assistant — name, personality dials, voice, memories, connected services, and billing — enforced as separate worlds by row-level security, not habit.</p></div>
     <div class="card"><div class="ico">🧠</div><h3>Cost-tiered intelligence</h3><p>A router judges every message and picks the cheapest model that can do the job well — four tiers from open-source workhorses to frontier Claude. Explicit "ask GPT / Gemini / Grok" summons override everything.</p></div>
     <div class="card"><div class="ico">📔</div><h3>Long-term memory</h3><p>Durable facts are extracted from conversation and recalled semantically (vector search). A 3D "memory galaxy" renders it all as an explorable starfield.</p></div>
     <div class="card"><div class="ico">🔎</div><h3>Live research, cited</h3><p>Current-events questions automatically route to live web search; every claim gets a clickable numbered citation.</p></div>
@@ -238,6 +242,29 @@
   </div>
 </section>
 
+<!-- ══ MODELS ══ -->
+<section class="wrap">
+  <p class="kicker">No single-vendor brain</p>
+  <h2>One assistant, many models</h2>
+  <p class="lede">
+    Merlin isn't tied to Claude — or to any one AI. A router weighs every message and picks the
+    cheapest model that will do the job well; saying "ask GPT" or "ask Gemini" summons a specific
+    one; and specialist models handle search, images, video, and voice. Every call, whoever answers,
+    lands on the same usage ledger.
+  </p>
+  <div class="channels">
+    <span class="chip">Claude Sonnet &middot; Opus &middot; Haiku <small>— Anthropic</small></span>
+    <span class="chip">GPT-5.5 <small>— OpenAI</small></span>
+    <span class="chip">Gemini Pro &middot; Flash <small>— Google</small></span>
+    <span class="chip">Grok <small>— xAI</small></span>
+    <span class="chip">Nemotron <small>— NVIDIA, the everyday workhorse</small></span>
+    <span class="chip">Sonar <small>— Perplexity, live web search</small></span>
+    <span class="chip">Veo <small>— video generation</small></span>
+    <span class="chip">Gemini Image <small>— image generation &amp; editing</small></span>
+    <span class="chip">ElevenLabs <small>— voice in &amp; out</small></span>
+  </div>
+</section>
+
 <!-- ══ GALLERY ══ -->
 <section class="wrap">
   <p class="kicker">Screenshots</p>
@@ -248,6 +275,9 @@
         <img src="shots/research.jpg" class="active" alt="Merlin answering a live-news question about NASA's Artemis program with a comparison table and numbered source citations" width="1600" height="1059">
         <img src="shots/panel.jpg" alt="Merlin's 'ask everyone' feature showing the same question answered by multiple AI models side by side" loading="lazy" width="1600" height="1059">
         <img src="shots/image.jpg" alt="Merlin generating a digital artwork of a wizard's study with floating holographic screens, shown inline in the chat" loading="lazy" width="1600" height="1059">
+        <img src="shots/report.jpg" alt="A Deep Research report on consumer home robotics with an executive summary and numbered source citations" loading="lazy" width="1600" height="1059">
+        <img src="shots/youtube.jpg" alt="Merlin summarizing a YouTube video with a time-stamped outline" loading="lazy" width="1600" height="1059">
+        <img src="shots/settings.jpg" alt="Merlin's per-user settings: assistant name, humor and formality dials, text size, and voice picker" loading="lazy" width="1600" height="660">
       </div>
       <figcaption id="galCap"><b>Live research with receipts.</b> A current-events question gets a structured answer grounded in a real-time web search — every claim carries a clickable numbered citation.</figcaption>
     </figure>
@@ -255,6 +285,9 @@
       <button class="thumb active" aria-label="Show: live research screenshot"><img src="shots/research.jpg" alt="" width="1600" height="1059"></button>
       <button class="thumb" aria-label="Show: ask-everyone panel screenshot"><img src="shots/panel.jpg" alt="" width="1600" height="1059"></button>
       <button class="thumb" aria-label="Show: image generation screenshot"><img src="shots/image.jpg" alt="" width="1600" height="1059"></button>
+      <button class="thumb" aria-label="Show: deep research report screenshot"><img src="shots/report.jpg" alt="" width="1600" height="1059"></button>
+      <button class="thumb" aria-label="Show: YouTube summary screenshot"><img src="shots/youtube.jpg" alt="" width="1600" height="1059"></button>
+      <button class="thumb" aria-label="Show: per-user settings screenshot"><img src="shots/settings.jpg" alt="" width="1600" height="660"></button>
     </div>
   </div>
   <script>
@@ -262,7 +295,10 @@
     var caps = [
       '<b>Live research with receipts.</b> A current-events question gets a structured answer grounded in a real-time web search \u2014 every claim carries a clickable numbered citation.',
       '<b>\u201cAsk everyone.\u201d</b> One question fanned out to four flagship AI models in parallel \u2014 their answers arrive side-by-side in a single reply.',
-      '<b>Images on demand.</b> Generation and editing happen right in the conversation \u2014 this one seemed thematically appropriate.'
+      '<b>Images on demand.</b> Generation and editing happen right in the conversation \u2014 this one seemed thematically appropriate.',
+      '<b>Deep Research, delivered.</b> A multi-step agent plans the angles, runs live searches, chases the gaps, and writes a long, fully-cited report \u2014 asynchronously, with the cost quoted up front.',
+      '<b>Chat with a video.</b> Paste a YouTube link for a time-stamped summary \u2014 then keep asking questions; the transcript joins the conversation.',
+      '<b>Tuned per person.</b> Every account dials in its own assistant \u2014 name, humor, formality, voice, text size \u2014 because one size fits no one.'
     ];
     var slides = document.querySelectorAll('#galFrame img');
     var thumbs = document.querySelectorAll('#galThumbs .thumb');
@@ -424,7 +460,7 @@
         <li><b>Security reviews before risk.</b> The sandboxed code-runner got a written review and six escape tests before its first real job.</li>
         <li><b>Boring technology.</b> Postgres, Docker, Caddy, plain TypeScript. Clever is a liability in a system people depend on every day.</li>
         <li><b>Everything metered.</b> Every model call lands in a ledger: who, which model, how many tokens, what it cost.</li>
-        <li><b>Plain-English commits.</b> 117+ of them — each explains <em>why</em>, so the owner can say "roll back to before we changed X" and mean it.</li>
+        <li><b>Plain-English commits.</b> 130+ of them — each explains <em>why</em>, so the owner can say "roll back to before we changed X" and mean it.</li>
       </ol>
     </div>
   </div>
@@ -436,7 +472,7 @@
   <h2>The scoreboard</h2>
   <div class="numbers">
     <div class="num"><b>6</b><span>days, first commit → full platform</span></div>
-    <div class="num"><b>18</b><span>milestones shipped</span></div>
+    <div class="num"><b>20</b><span>milestones shipped</span></div>
     <div class="num"><b>7</b><span>channels to one brain</span></div>
     <div class="num"><b>12+</b><span>AI models orchestrated</span></div>
     <div class="num"><b>24</b><span>database migrations</span></div>
