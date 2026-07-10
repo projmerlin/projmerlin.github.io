@@ -100,6 +100,11 @@
   .card .ico { font-size: 24px; }
   .card h3 { font-size: 16px; margin: 10px 0 6px; }
   .card p { font-size: 13.5px; color: var(--text-dim); }
+  .soon {
+    display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; vertical-align: middle;
+    color: var(--accent-2); border: 1px solid var(--accent-2); opacity: .85;
+  }
 
   /* ── security list ────────────────────── */
   .sec-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin-top: 28px; }
@@ -130,13 +135,14 @@
   @media (prefers-reduced-motion: reduce) { .frame img { transition: none; } }
   .feature figcaption { padding: 14px 6px 2px; font-size: 14px; color: var(--text-dim); min-height: 3.2em; }
   .feature figcaption b { color: var(--text); }
-  .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 14px; }
+  @media (max-width: 720px) { .thumbs { grid-template-columns: repeat(3, 1fr); } }
   .thumb {
     padding: 0; border: 2px solid var(--glass-border); border-radius: 10px; overflow: hidden;
     background: none; cursor: pointer; opacity: .5;
     transition: opacity .25s, border-color .25s, box-shadow .25s;
   }
-  .thumb img { display: block; width: 100%; aspect-ratio: 1600 / 1059; object-fit: cover; object-position: top; }
+  .thumb img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 1059; object-fit: cover; object-position: top; }
   .thumb:hover { opacity: .85; }
   .thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .thumb.active {
@@ -239,6 +245,9 @@
     <div class="card"><div class="ico">🏭</div><h3>Builds documents</h3><p>Writes and runs code in a network-less sandbox to produce real spreadsheets, Word docs, and PDFs — each run security-gated and archived.</p></div>
     <div class="card"><div class="ico">🔌</div><h3>MCP connectors</h3><p>Speaks the open Model Context Protocol to connect external tools — every write action still passes the same confirmation gate.</p></div>
     <div class="card"><div class="ico">📋</div><h3>Daily briefs &amp; tasks</h3><p>A morning brief, a Notion HQ it maintains, and an email inbox it sweeps into actionable tasks.</p></div>
+    <div class="card"><div class="ico">🌐</div><h3>Browser copilot<span class="soon">NEXT UP</span></h3><p>A Chrome extension that reads and explains the page you're on, translates it inline, and answers beside your search results — with a strictly-gated "drive the browser" mode to follow.</p></div>
+    <div class="card"><div class="ico">📲</div><h3>Outbound calls<span class="soon">NEXT UP</span></h3><p>"Call me in ten minutes" — Merlin rings you and holds a live spoken conversation, plus a talk-live mode right in the browser.</p></div>
+    <div class="card"><div class="ico">🗂</div><h3>Project workspaces<span class="soon">NEXT UP</span></h3><p>Per-topic knowledge bases: give a project its own folder of context — documents, notes, links — and conversations scoped to just that world.</p></div>
   </div>
 </section>
 
@@ -248,7 +257,7 @@
   <h2>One assistant, many models</h2>
   <p class="lede">
     Merlin isn't tied to Claude — or to any one AI. A router weighs every message and picks the
-    cheapest model that will do the job well; saying "ask GPT" or "ask Gemini" summons a specific
+    best model for the job; saying "ask GPT" or "ask Gemini" summons a specific
     one; and specialist models handle search, images, video, and voice. Every call, whoever answers,
     lands on the same usage ledger.
   </p>
