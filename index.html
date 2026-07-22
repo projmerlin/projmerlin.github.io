@@ -219,10 +219,38 @@
     border-top: 1px solid var(--glass-border); padding: 40px 0 60px; margin-top: 40px;
     text-align: center; color: var(--text-dim); font-size: 14px;
   }
+
+  /* ── top-right nav pills ─────────────── */
+  .top-nav {
+    position: fixed; top: 16px; right: 16px; z-index: 50;
+    display: flex; gap: 8px;
+  }
+  .top-nav a {
+    display: inline-block; text-decoration: none; font-weight: 700; font-size: 13px;
+    color: #06202f; background: linear-gradient(120deg, #7fd0ff, var(--accent));
+    padding: 8px 16px; border-radius: 999px;
+    box-shadow: 0 6px 24px -10px var(--accent-glow);
+    transition: transform .15s, box-shadow .25s;
+  }
+  .top-nav a.ghost {
+    color: var(--text); background: var(--glass-strong); border: 1px solid var(--glass-border);
+    box-shadow: none;
+  }
+  .top-nav a:hover { transform: translateY(-2px); box-shadow: 0 10px 32px -10px var(--accent-glow); }
+  .top-nav a.ghost:hover { border-color: var(--glass-border-hover); }
+  @media (max-width: 520px) {
+    .top-nav { top: 10px; right: 10px; }
+    .top-nav a { padding: 7px 12px; font-size: 12px; }
+  }
 </style>
 </head>
 <body>
 <div class="sky" aria-hidden="true"></div>
+
+<nav class="top-nav" aria-label="Site">
+  <a href="contact.html" class="ghost">Contact</a>
+  <a href="https://www.linkedin.com/in/dustinmooney/" target="_blank" rel="noopener noreferrer">Connect</a>
+</nav>
 
 <!-- ══ HERO ══ -->
 <header class="hero wrap">
@@ -239,7 +267,7 @@
   </div>
 
   <div style="margin-top: 34px;">
-    <a href="demo.html" class="demo-cta">▶ Try the live demo</a>
+    <a href="access.html" class="demo-cta">▶ Try the live demo</a>
   </div>
 
   <p class="notice"><b>This page is the tour, not the door.</b> Merlin itself is a private, invite-only system — passkey login, no public signup. The demo is a caged, chat-only taste; nothing here grants access.</p>

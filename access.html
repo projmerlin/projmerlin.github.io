@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get demo access — Merlin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Request free, instant access to a live caged demo of Merlin, a personal AI assistant built by Dustin Mooney.">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="phone-input.js" defer></script>
+<style>
+  :root {
+    --bg: #0a0c12; --accent: #47c6ff; --accent-2: #8a7bff; --accent-glow: rgba(71,198,255,.45);
+    --glass: rgba(122,152,199,.07); --glass-strong: rgba(122,152,199,.12);
+    --glass-border: rgba(122,160,220,.18); --glass-border-hover: rgba(122,190,255,.45);
+    --text: #e8ecf7; --text-dim: #9aa3bd;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(122,152,199,.25); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(122,152,199,.4); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sky {
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse 60% 40% at 70% -10%, rgba(71,198,255,.10), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 15% 110%, rgba(138,123,255,.10), transparent 60%),
+      var(--bg);
+  }
+  .wrap { max-width: 620px; margin: 0 auto; padding: 26px 20px 70px; }
+
+  .top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .orb {
+    width: 34px; height: 34px; border-radius: 50%; flex: none;
+    background: radial-gradient(circle at 35% 35%, #d6f2ff, var(--accent) 55%, rgba(71,198,255,.15));
+    box-shadow: 0 0 24px var(--accent-glow);
+    animation: breathe 4.5s ease-in-out infinite;
+  }
+  @keyframes breathe { 0%,100% { transform: scale(1); opacity: .92; } 50% { transform: scale(1.07); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
+  .top h1 { font-size: 20px; font-weight: 700; }
+  .back { margin-left: auto; color: var(--text-dim); text-decoration: none; font-size: 14px; white-space: nowrap; }
+  .back:hover { color: var(--text); }
+
+  .hero { text-align: center; padding: 34px 0 8px; }
+  .hero h2 {
+    font-size: clamp(24px, 5vw, 32px); margin-bottom: 12px; line-height: 1.2;
+    background: linear-gradient(120deg, #eaf6ff, var(--accent) 55%, var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { color: var(--text-dim); font-size: 15.5px; max-width: 480px; margin: 0 auto; }
+
+  .card {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: 18px;
+    padding: 26px; margin-top: 30px;
+  }
+  .card h3 { font-size: 16px; margin-bottom: 4px; }
+  .card .sub { color: var(--text-dim); font-size: 13.5px; margin-bottom: 18px; }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+  .field input, .field select {
+    width: 100%; background: var(--glass-strong); color: var(--text);
+    border: 1px solid var(--glass-border); border-radius: 11px; padding: 11px 13px;
+    font-size: 15px; font-family: inherit; transition: border-color .15s;
+  }
+  .field input:focus, .field select:focus { border-color: var(--glass-border-hover); outline: none; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+  .phone-row { display: grid; grid-template-columns: 120px 1fr; gap: 10px; }
+
+  /* honeypot — visually hidden but present for bots/scrapers */
+  .hp {
+    position: absolute; left: -5000px; width: 1px; height: 1px;
+    overflow: hidden; opacity: 0;
+  }
+
+  .btn {
+    display: inline-block; width: 100%; text-align: center; text-decoration: none;
+    font-weight: 700; font-size: 15.5px; color: #06202f; cursor: pointer;
+    background: linear-gradient(120deg, #7fd0ff, var(--accent)); border: none;
+    padding: 13px 20px; border-radius: 12px;
+    box-shadow: 0 8px 34px -10px var(--accent-glow);
+    transition: transform .15s, box-shadow .25s, opacity .15s;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 44px -10px var(--accent-glow); }
+  .btn:disabled { opacity: .55; cursor: default; transform: none; }
+  .btn.ghost {
+    background: var(--glass-strong); color: var(--text); box-shadow: none; border: 1px solid var(--glass-border);
+  }
+  .btn.ghost:hover:not(:disabled) { border-color: var(--glass-border-hover); box-shadow: 0 8px 30px -16px var(--accent-glow); }
+
+  .required { color: var(--accent); }
+  .msg-box {
+    margin-top: 16px; padding: 12px 15px; border-radius: 11px; font-size: 14px; display: none;
+  }
+  .msg-box.ok { display: block; background: rgba(71,198,255,.10); border: 1px solid rgba(71,198,255,.35); color: var(--text); }
+  .msg-box.err { display: block; background: rgba(255,110,110,.08); border: 1px solid rgba(255,110,110,.35); color: #ffcccc; }
+
+  .divider { display: flex; align-items: center; gap: 14px; margin: 34px 0 0; color: var(--text-dim); font-size: 13px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--glass-border); }
+
+  .login-teaser { text-align: center; margin-top: 16px; }
+  .login-teaser p { color: var(--text-dim); font-size: 14.5px; margin-bottom: 12px; }
+  .login-teaser button {
+    background: none; border: 1px solid var(--glass-border); color: var(--accent);
+    border-radius: 999px; padding: 9px 20px; font-size: 14px; cursor: pointer; font-family: inherit;
+    transition: border-color .15s, background .15s;
+  }
+  .login-teaser button:hover { border-color: var(--glass-border-hover); background: var(--glass-strong); }
+
+  #loginCard { display: none; }
+
+  .fine { font-size: 12.5px; color: var(--text-dim); margin-top: 14px; text-align: center; }
+  .fine a { color: var(--text-dim); }
+
+  .spinner {
+    display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid rgba(6,32,47,.35); border-top-color: #06202f;
+    animation: spin .7s linear infinite; margin-right: 8px; vertical-align: -2px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="orb" aria-hidden="true"></div>
+    <h1>Merlin — demo access</h1>
+    <a href="index.html" class="back">← Back to the tour</a>
+  </div>
+
+  <div class="hero">
+    <h2>Try Merlin, free and instant</h2>
+    <p>This is a live, caged demo of Merlin — request a one-time access code by email and you're in. No account, no password, nothing to remember long-term.</p>
+  </div>
+
+  <!-- ══ SIGNUP ══ -->
+  <form class="card" id="signupForm" novalidate>
+    <h3>Get my access code</h3>
+    <div class="sub">Takes a few seconds. Your code arrives by email.</div>
+
+    <div class="row">
+      <div class="field">
+        <label for="su-first">First name <span class="required">*</span></label>
+        <input id="su-first" name="firstName" type="text" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="su-last">Last name <span class="required">*</span></label>
+        <input id="su-last" name="lastName" type="text" autocomplete="family-name" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="su-email">Email <span class="required">*</span></label>
+      <input id="su-email" name="email" type="email" autocomplete="email" required>
+    </div>
+
+    <div class="field">
+      <label for="su-phone">Phone <span style="color:var(--text-dim)">(optional)</span></label>
+      <div class="phone-row">
+        <select id="su-phone-country" aria-label="Country code"></select>
+        <input id="su-phone" name="phone" type="tel" inputmode="tel" placeholder="(123) 456-7890">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="su-company">Company / organization <span style="color:var(--text-dim)">(optional)</span></label>
+      <input id="su-company" name="company" type="text" autocomplete="organization">
+    </div>
+
+    <!-- honeypot: real users never see or fill this -->
+    <div class="hp" aria-hidden="true">
+      <label for="su-website">Website</label>
+      <input id="su-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    </div>
+
+    <div id="ts-signup"></div>
+
+    <button class="btn" id="su-submit" type="submit" style="margin-top: 6px;">Get my access code</button>
+
+    <div class="msg-box" id="su-msg" role="status"></div>
+
+    <p class="fine">Your code is valid for 24 hours and quietly self-renews with light use — no need to request a new one every day. This demo is chat-only and doesn't grant access to the full Merlin platform.</p>
+  </form>
+
+  <div class="divider">or</div>
+  <div class="login-teaser">
+    <p>If you already have your login information, please click here.</p>
+    <button type="button" id="showLogin">I already have a code</button>
+  </div>
+
+  <!-- ══ LOGIN ══ -->
+  <form class="card" id="loginCard" novalidate>
+    <h3>Enter the demo</h3>
+    <div class="sub">Use the email and access code from your email.</div>
+
+    <div class="field">
+      <label for="li-email">Email</label>
+      <input id="li-email" name="email" type="email" autocomplete="email" required>
+    </div>
+    <div class="field">
+      <label for="li-code">Access code</label>
+      <input id="li-code" name="code" type="text" autocomplete="one-time-code" inputmode="numeric" required>
+    </div>
+
+    <button class="btn" id="li-submit" type="submit">Enter the demo</button>
+    <div class="msg-box" id="li-msg" role="status"></div>
+  </form>
+</div>
+
+<script>
+  const API = 'https://api.projectmerlin.app';
+  const TS_SITEKEY = '0x4AAAAAAD6-g3wTkSCLtdih';
+
+  // ── shared invisible-Turnstile helper ──
+  var tsToken = '';
+  var tsWaiters = [];
+  var tsWidgetId = null;
+  window.onTurnstileToken = function (token) {
+    tsToken = token;
+    tsWaiters.forEach(function (fn) { fn(token); });
+    tsWaiters = [];
+  };
+  function renderTurnstileWhenReady() {
+    var tries = 0;
+    var iv = setInterval(function () {
+      tries++;
+      if (window.turnstile) {
+        clearInterval(iv);
+        tsWidgetId = turnstile.render('#ts-signup', {
+          sitekey: TS_SITEKEY,
+          size: 'invisible',
+          callback: window.onTurnstileToken,
+          'error-callback': function () { window.onTurnstileToken(''); }
+        });
+      } else if (tries > 100) {
+        clearInterval(iv);
+      }
+    }, 100);
+  }
+  renderTurnstileWhenReady();
+  function ensureTurnstileToken() {
+    return new Promise(function (resolve) {
+      if (tsToken) { resolve(tsToken); return; }
+      if (window.turnstile && tsWidgetId !== null) turnstile.execute(tsWidgetId);
+      tsWaiters.push(resolve);
+      setTimeout(function () { resolve(tsToken || ''); }, 4500);
+    });
+  }
+  function resetTurnstile() {
+    tsToken = '';
+    if (window.turnstile && tsWidgetId !== null) turnstile.reset(tsWidgetId);
+  }
+
+  // ── phone input ──
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.MerlinPhone) {
+      MerlinPhone.attach(document.getElementById('su-phone-country'), document.getElementById('su-phone'));
+    } else {
+      window.addEventListener('load', function () {
+        if (window.MerlinPhone) MerlinPhone.attach(document.getElementById('su-phone-country'), document.getElementById('su-phone'));
+      });
+    }
+  });
+
+  function showMsg(el, text, kind) {
+    el.textContent = text;
+    el.className = 'msg-box ' + kind;
+  }
+
+  // ── signup ──
+  var signupForm = document.getElementById('signupForm');
+  var suSubmit = document.getElementById('su-submit');
+  var suMsg = document.getElementById('su-msg');
+
+  signupForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var firstName = document.getElementById('su-first').value.trim();
+    var lastName = document.getElementById('su-last').value.trim();
+    var email = document.getElementById('su-email').value.trim();
+    if (!firstName || !lastName || !email) {
+      showMsg(suMsg, 'First name, last name, and email are required.', 'err');
+      return;
+    }
+    suSubmit.disabled = true;
+    suSubmit.innerHTML = '<span class="spinner"></span>Sending…';
+    suMsg.className = 'msg-box';
+
+    var phoneSelect = document.getElementById('su-phone-country');
+    var phoneInput = document.getElementById('su-phone');
+    var phone = window.MerlinPhone ? MerlinPhone.getFullNumber(phoneSelect, phoneInput) : '';
+
+    try {
+      var turnstileToken = await ensureTurnstileToken();
+      var res = await fetch(API + '/signup', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phone: phone,
+          company: document.getElementById('su-company').value.trim(),
+          turnstileToken: turnstileToken,
+          website: document.getElementById('su-website').value // honeypot, always empty for humans
+        })
+      });
+      var data = await res.json();
+      if (res.ok && data.ok) {
+        showMsg(suMsg, data.returning
+          ? 'Welcome back — a fresh code is on its way.'
+          : 'Check your email — your access code is on its way.', 'ok');
+        signupForm.reset();
+      } else {
+        showMsg(suMsg, data.error || 'Something went wrong — please try again in a moment.', 'err');
+      }
+    } catch (err) {
+      showMsg(suMsg, 'Could not reach Merlin — please check your connection and try again.', 'err');
+    }
+    resetTurnstile();
+    suSubmit.disabled = false;
+    suSubmit.textContent = 'Get my access code';
+  });
+
+  // ── reveal login ──
+  var loginCard = document.getElementById('loginCard');
+  document.getElementById('showLogin').addEventListener('click', function () {
+    loginCard.style.display = loginCard.style.display === 'block' ? 'none' : 'block';
+    if (loginCard.style.display === 'block') {
+      loginCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('li-email').focus();
+    }
+  });
+
+  // ── login ──
+  var loginForm = document.getElementById('loginCard');
+  var liSubmit = document.getElementById('li-submit');
+  var liMsg = document.getElementById('li-msg');
+
+  loginForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var email = document.getElementById('li-email').value.trim();
+    var code = document.getElementById('li-code').value.trim();
+    if (!email || !code) {
+      showMsg(liMsg, 'Enter both your email and access code.', 'err');
+      return;
+    }
+    liSubmit.disabled = true;
+    liSubmit.innerHTML = '<span class="spinner"></span>Checking…';
+    liMsg.className = 'msg-box';
+
+    try {
+      var res = await fetch(API + '/session', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: email, code: code })
+      });
+      var data = await res.json();
+      if (res.ok && data.token) {
+        sessionStorage.setItem('merlin_demo', JSON.stringify(data));
+        window.location.href = 'demo.html';
+        return;
+      }
+      var err = (data.error || '').toLowerCase();
+      if (err.indexOf('expire') !== -1) {
+        showMsg(liMsg, 'That code has expired — request a fresh one above, it takes a few seconds.', 'err');
+      } else {
+        showMsg(liMsg, data.error || 'That email and code combination did not work — double-check and try again.', 'err');
+      }
+    } catch (err) {
+      showMsg(liMsg, 'Could not reach Merlin — please check your connection and try again.', 'err');
+    }
+    liSubmit.disabled = false;
+    liSubmit.textContent = 'Enter the demo';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "stars": [
+    { "id": 0,  "fact": "Katherine's birthday is in March",                         "pos": [0.62, 0.58, 0.32] },
+    { "id": 1,  "fact": "Anniversary is the second week of June",                   "pos": [0.71, 0.44, 0.18] },
+    { "id": 2,  "fact": "Family movie night is Friday evenings",                    "pos": [0.55, 0.66, 0.44] },
+    { "id": 3,  "fact": "Dog's name is Scout, a golden retriever",                  "pos": [0.44, 0.72, 0.20] },
+    { "id": 4,  "fact": "Backup emergency contact is his brother",                  "pos": [0.68, 0.52, -0.05] },
+
+    { "id": 5,  "fact": "Prefers window seats on flights",                         "pos": [-0.58, 0.24, 0.58] },
+    { "id": 6,  "fact": "Prefers flights that avoid Atlanta layovers",             "pos": [-0.70, 0.12, 0.48] },
+    { "id": 7,  "fact": "Home base is Cary, North Carolina",                       "pos": [-0.46, 0.40, 0.66] },
+    { "id": 8,  "fact": "Drives a blue Honda CR-V",                                "pos": [-0.55, 0.18, 0.72] },
+
+    { "id": 9,  "fact": "Coffee order: flat white, extra shot",                    "pos": [0.10, -0.62, 0.56] },
+    { "id": 10, "fact": "Likes dark roast, no sugar, splash of oat milk at home",   "pos": [0.02, -0.72, 0.42] },
+    { "id": 11, "fact": "Favorite restaurant is the little Italian place downtown","pos": [0.24, -0.52, 0.68] },
+    { "id": 12, "fact": "Allergic to shellfish",                                   "pos": [0.28, -0.66, 0.50] },
+
+    { "id": 13, "fact": "The kids' soccer practice is Tuesdays and Thursdays",      "pos": [0.52, -0.34, -0.54] },
+    { "id": 14, "fact": "Son plays travel baseball on weekends",                    "pos": [0.62, -0.20, -0.62] },
+    { "id": 15, "fact": "Daughter's favorite color is purple",                      "pos": [0.42, -0.46, -0.68] },
+    { "id": 16, "fact": "Wants a heads-up before any calendar double-booking",       "pos": [0.66, -0.44, -0.36] },
+
+    { "id": 17, "fact": "Dentist appointments are every six months in the fall",    "pos": [-0.40, -0.52, -0.44] },
+    { "id": 18, "fact": "Keeps a running list of home improvement projects",         "pos": [-0.56, -0.38, -0.58] },
+    { "id": 19, "fact": "Prefers texting over phone calls for quick things",         "pos": [-0.30, -0.66, -0.30] }
+  ],
+  "links": [
+    [0, 1],
+    [0, 2],
+    [1, 2],
+    [2, 3],
+    [0, 4],
+    [1, 16],
+    [5, 6],
+    [5, 7],
+    [7, 8],
+    [6, 16],
+    [9, 10],
+    [9, 11],
+    [10, 12],
+    [11, 12],
+    [13, 14],
+    [13, 15],
+    [14, 16],
+    [17, 18],
+    [18, 19],
+    [4, 19]
+  ]
+}

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Dustin Mooney</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Get in touch with Dustin Mooney about Merlin, work, or anything else.">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="phone-input.js" defer></script>
+<style>
+  :root {
+    --bg: #0a0c12; --accent: #47c6ff; --accent-2: #8a7bff; --accent-glow: rgba(71,198,255,.45);
+    --glass: rgba(122,152,199,.07); --glass-strong: rgba(122,152,199,.12);
+    --glass-border: rgba(122,160,220,.18); --glass-border-hover: rgba(122,190,255,.45);
+    --text: #e8ecf7; --text-dim: #9aa3bd;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(122,152,199,.25); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(122,152,199,.4); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sky {
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse 60% 40% at 70% -10%, rgba(71,198,255,.10), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 15% 110%, rgba(138,123,255,.10), transparent 60%),
+      var(--bg);
+  }
+  .wrap { max-width: 620px; margin: 0 auto; padding: 26px 20px 70px; }
+
+  .top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .orb {
+    width: 34px; height: 34px; border-radius: 50%; flex: none;
+    background: radial-gradient(circle at 35% 35%, #d6f2ff, var(--accent) 55%, rgba(71,198,255,.15));
+    box-shadow: 0 0 24px var(--accent-glow);
+    animation: breathe 4.5s ease-in-out infinite;
+  }
+  @keyframes breathe { 0%,100% { transform: scale(1); opacity: .92; } 50% { transform: scale(1.07); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
+  .top h1 { font-size: 20px; font-weight: 700; }
+  .back { margin-left: auto; color: var(--text-dim); text-decoration: none; font-size: 14px; white-space: nowrap; }
+  .back:hover { color: var(--text); }
+
+  .hero { text-align: center; padding: 34px 0 8px; }
+  .hero h2 {
+    font-size: clamp(24px, 5vw, 32px); margin-bottom: 12px; line-height: 1.2;
+    background: linear-gradient(120deg, #eaf6ff, var(--accent) 55%, var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { color: var(--text-dim); font-size: 15.5px; max-width: 480px; margin: 0 auto; }
+
+  .card {
+    background: var(--glass); border: 1px solid var(--glass-border); border-radius: 18px;
+    padding: 26px; margin-top: 30px;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%; background: var(--glass-strong); color: var(--text);
+    border: 1px solid var(--glass-border); border-radius: 11px; padding: 11px 13px;
+    font-size: 15px; font-family: inherit; transition: border-color .15s; resize: vertical;
+  }
+  .field textarea { min-height: 130px; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--glass-border-hover); outline: none; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
+  .phone-row { display: grid; grid-template-columns: 120px 1fr; gap: 10px; }
+
+  .hp { position: absolute; left: -5000px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+
+  .btn {
+    display: inline-block; width: 100%; text-align: center; text-decoration: none;
+    font-weight: 700; font-size: 15.5px; color: #06202f; cursor: pointer;
+    background: linear-gradient(120deg, #7fd0ff, var(--accent)); border: none;
+    padding: 13px 20px; border-radius: 12px;
+    box-shadow: 0 8px 34px -10px var(--accent-glow);
+    transition: transform .15s, box-shadow .25s, opacity .15s;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 44px -10px var(--accent-glow); }
+  .btn:disabled { opacity: .55; cursor: default; transform: none; }
+
+  .required { color: var(--accent); }
+  .msg-box { margin-top: 16px; padding: 12px 15px; border-radius: 11px; font-size: 14px; display: none; }
+  .msg-box.ok { display: block; background: rgba(71,198,255,.10); border: 1px solid rgba(71,198,255,.35); color: var(--text); }
+  .msg-box.err { display: block; background: rgba(255,110,110,.08); border: 1px solid rgba(255,110,110,.35); color: #ffcccc; }
+
+  .spinner {
+    display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid rgba(6,32,47,.35); border-top-color: #06202f;
+    animation: spin .7s linear infinite; margin-right: 8px; vertical-align: -2px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="orb" aria-hidden="true"></div>
+    <h1>Contact</h1>
+    <a href="index.html" class="back">← Back to the tour</a>
+  </div>
+
+  <div class="hero">
+    <h2>Let's talk</h2>
+    <p>Want to talk about Merlin, work, or anything else — reach out directly.</p>
+  </div>
+
+  <form class="card" id="contactForm" novalidate>
+    <div class="row">
+      <div class="field">
+        <label for="c-first">First name <span class="required">*</span></label>
+        <input id="c-first" name="firstName" type="text" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="c-last">Last name <span class="required">*</span></label>
+        <input id="c-last" name="lastName" type="text" autocomplete="family-name" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="c-email">Email <span class="required">*</span></label>
+      <input id="c-email" name="email" type="email" autocomplete="email" required>
+    </div>
+
+    <div class="field">
+      <label for="c-phone">Phone <span style="color:var(--text-dim)">(optional)</span></label>
+      <div class="phone-row">
+        <select id="c-phone-country" aria-label="Country code"></select>
+        <input id="c-phone" name="phone" type="tel" inputmode="tel" placeholder="(123) 456-7890">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="c-company">Company / organization <span style="color:var(--text-dim)">(optional)</span></label>
+      <input id="c-company" name="company" type="text" autocomplete="organization">
+    </div>
+
+    <div class="field">
+      <label for="c-subject">Subject <span class="required">*</span></label>
+      <input id="c-subject" name="subject" type="text" required>
+    </div>
+
+    <div class="field">
+      <label for="c-body">Message <span class="required">*</span></label>
+      <textarea id="c-body" name="body" required></textarea>
+    </div>
+
+    <!-- honeypot -->
+    <div class="hp" aria-hidden="true">
+      <label for="c-website">Website</label>
+      <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    </div>
+
+    <div id="ts-contact"></div>
+
+    <button class="btn" id="c-submit" type="submit" style="margin-top: 6px;">Send</button>
+    <div class="msg-box" id="c-msg" role="status"></div>
+  </form>
+</div>
+
+<script>
+  const API = 'https://api.projectmerlin.app';
+  const TS_SITEKEY = '0x4AAAAAAD6-g3wTkSCLtdih';
+
+  var tsToken = '';
+  var tsWaiters = [];
+  var tsWidgetId = null;
+  window.onTurnstileToken = function (token) {
+    tsToken = token;
+    tsWaiters.forEach(function (fn) { fn(token); });
+    tsWaiters = [];
+  };
+  (function renderTurnstileWhenReady() {
+    var tries = 0;
+    var iv = setInterval(function () {
+      tries++;
+      if (window.turnstile) {
+        clearInterval(iv);
+        tsWidgetId = turnstile.render('#ts-contact', {
+          sitekey: TS_SITEKEY,
+          size: 'invisible',
+          callback: window.onTurnstileToken,
+          'error-callback': function () { window.onTurnstileToken(''); }
+        });
+      } else if (tries > 100) {
+        clearInterval(iv);
+      }
+    }, 100);
+  })();
+  function ensureTurnstileToken() {
+    return new Promise(function (resolve) {
+      if (tsToken) { resolve(tsToken); return; }
+      if (window.turnstile && tsWidgetId !== null) turnstile.execute(tsWidgetId);
+      tsWaiters.push(resolve);
+      setTimeout(function () { resolve(tsToken || ''); }, 4500);
+    });
+  }
+  function resetTurnstile() {
+    tsToken = '';
+    if (window.turnstile && tsWidgetId !== null) turnstile.reset(tsWidgetId);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.MerlinPhone) {
+      MerlinPhone.attach(document.getElementById('c-phone-country'), document.getElementById('c-phone'));
+    } else {
+      window.addEventListener('load', function () {
+        if (window.MerlinPhone) MerlinPhone.attach(document.getElementById('c-phone-country'), document.getElementById('c-phone'));
+      });
+    }
+  });
+
+  function showMsg(el, text, kind) {
+    el.textContent = text;
+    el.className = 'msg-box ' + kind;
+  }
+
+  var form = document.getElementById('contactForm');
+  var submitBtn = document.getElementById('c-submit');
+  var msgBox = document.getElementById('c-msg');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var firstName = document.getElementById('c-first').value.trim();
+    var lastName = document.getElementById('c-last').value.trim();
+    var email = document.getElementById('c-email').value.trim();
+    var subject = document.getElementById('c-subject').value.trim();
+    var body = document.getElementById('c-body').value.trim();
+    if (!firstName || !lastName || !email || !subject || !body) {
+      showMsg(msgBox, 'First name, last name, email, subject, and message are required.', 'err');
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span>Sending…';
+    msgBox.className = 'msg-box';
+
+    var phoneSelect = document.getElementById('c-phone-country');
+    var phoneInput = document.getElementById('c-phone');
+    var phone = window.MerlinPhone ? MerlinPhone.getFullNumber(phoneSelect, phoneInput) : '';
+
+    try {
+      var turnstileToken = await ensureTurnstileToken();
+      var res = await fetch(API + '/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phone: phone,
+          company: document.getElementById('c-company').value.trim(),
+          subject: subject,
+          body: body,
+          turnstileToken: turnstileToken,
+          website: document.getElementById('c-website').value
+        })
+      });
+      var data = await res.json();
+      if (res.ok && data.ok) {
+        showMsg(msgBox, 'Sent — Dustin reads these personally.', 'ok');
+        form.reset();
+        submitBtn.style.display = 'none';
+      } else {
+        showMsg(msgBox, data.error || 'Something went wrong — please try again in a moment.', 'err');
+      }
+    } catch (err) {
+      showMsg(msgBox, 'Could not reach the server — please check your connection and try again.', 'err');
+    }
+    resetTurnstile();
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send';
+  });
+</script>
+</body>
+</html>
